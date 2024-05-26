@@ -1,0 +1,19 @@
+class Solution:
+    MOD = 1000000000 + 7
+    def checkRecord(self, n: int) -> int:
+        return self.numPossibleRecords(n, 1, 2)
+    def numPossibleRecords(self, n: int, numAbsensesRemaining: int, numLatesRemaining: int) -> int:
+        if n == 0:
+            return 1
+        total = 0
+        # Pick P
+        total += self.numPossibleRecords(n - 1, numAbsensesRemaining, 2)
+        if numAbsensesRemaining > 0:
+            # Pick A
+            total += self.numPossibleRecords(n - 1, numAbsensesRemaining - 1, 2)
+            total %= self.MOD
+        if numLatesRemaining > 0:
+            # Pick L
+            total += self.numPossibleRecords(n - 1, numAbsensesRemaining, numLatesRemaining - 1)
+            total %= self.MOD
+        return total
